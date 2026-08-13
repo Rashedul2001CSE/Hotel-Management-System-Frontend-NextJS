@@ -1,0 +1,86 @@
+hotel-management-frontend/
+├── public/                       # Static assets (images, logos, fonts, favicon)
+│   ├── favicon.ico
+│   ├── logo.svg
+│   └── hero-banner.webp
+│
+├── src/                          # Main source directory
+│   ├── app/                      # Next.js App Router (Pages, Layouts, API Routes)
+│   │   ├── (auth)/               # Route Group for Authentication (un-nested URLs)
+│   │   │   ├── login/
+│   │   │   │   └── page.tsx      # /login
+│   │   │   ├── register/
+│   │   │   │   └── page.tsx      # /register
+│   │   │   └── layout.tsx        # Shared layout for auth pages
+│   │   │
+│   │   ├── (dashboard)/          # Protected Admin & Staff Routes
+│   │   │   ├── admin/
+│   │   │   │   ├── rooms/
+│   │   │   │   │   └── page.tsx  # /admin/rooms
+│   │   │   │   ├── bookings/
+│   │   │   │   │   └── page.tsx  # /admin/bookings
+│   │   │   │   └── page.tsx      # /admin
+│   │   │   └── layout.tsx        # Dashboard sidebar & topbar layout
+│   │   │
+│   │   ├── api/                  # Next.js API Routes / BFF (Backend-for-Frontend)
+│   │   │   └── chat/
+│   │   │       └── route.ts      # Endpoint for streaming AI chatbot responses
+│   │   │
+│   │   ├── rooms/                # Public guest pages
+│   │   │   ├── [id]/             # Dynamic route (e.g., /rooms/101)
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx          # /rooms (Room listing)
+│   │   │
+│   │   ├── error.tsx             # Global error boundary component
+│   │   ├── layout.tsx            # Root layout (Providers, Fonts, Metadata)
+│   │   ├── loading.tsx           # Global fallback loading spinner/skeleton
+│   │   ├── not-found.tsx         # Custom 404 page
+│   │   └── page.tsx              # Public Home page (/)
+│   │
+│   ├── components/               # Reusable UI Components
+│   │   ├── chatbot/              # AI Chatbot Widget components
+│   │   │   ├── ChatWindow.tsx
+│   │   │   └── ChatMessage.tsx
+│   │   │
+│   │   ├── shared/               # Application-specific shared components
+│   │   │   ├── Navbar.tsx
+│   │   │   ├── Footer.tsx
+│   │   │   └── RoomCard.tsx
+│   │   │
+│   │   └── ui/                   # Shadcn UI Base Components (generated source)
+│   │       ├── button.tsx
+│   │       ├── dialog.tsx
+│   │       ├── dropdown-menu.tsx
+│   │       └── table.tsx
+│   │
+│   ├── hooks/                    # Custom React Hooks
+│   │   ├── useAuth.ts
+│   │   └── useChat.ts
+│   │
+│   ├── lib/                      # Helper utilities and third-party configs
+│   │   ├── api.ts                # ASP.NET Core API fetch wrapper
+│   │   ├── auth.ts               # Token storage & validation helpers
+│   │   └── utils.ts              # Shadcn class merging utility (cn helper)
+│   │
+│   ├── providers/                # React Context Providers (Query, Theme, Auth)
+│   │   ├── QueryProvider.tsx     # TanStack Query (React Query) setup
+│   │   └── ThemeProvider.tsx     # Dark/Light mode provider
+│   │
+│   ├── styles/                   # Global CSS files
+│   │   └── globals.css           # Tailwind directives & CSS variables
+│   │
+│   └── types/                    # TypeScript Type Definitions / Interfaces
+│       ├── api.ts                # Backend request/response contracts
+│       ├── booking.ts
+│       └── room.ts
+│
+├── .env.local                    # Environment variables (API URL, API keys)
+├── .env.example                  # Template for environment variables (committed)
+├── .eslintrc.json                # ESLint code style configuration
+├── .gitignore                    # Files ignored by Git
+├── components.json               # Shadcn UI CLI configuration
+├── next.config.mjs               # Next.js custom compiler settings
+├── package.json                  # Dependencies and scripts
+├── postcss.config.mjs            # PostCSS plugin config (used by Tailwind)
+├── tailwind.config.ts            # Tailwind CSS configuration & theme extension
+└── tsconfig.json                 # TypeScript compiler configuration
