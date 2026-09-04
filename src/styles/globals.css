@@ -1,7 +1,6 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
-
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -128,4 +127,8 @@
   html {
     @apply font-sans;
   }
+}
+
+.logo-bg {
+  background: linear-gradient(45deg, #3b82f6, #8b5cf6, #06b6d4);
 }

@@ -1,0 +1,90 @@
+@keyframes twinkle {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, 20px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes subtleFloat {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes rocketFloat {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(15px);
+  }
+}
+
+/* Star color adapts to mode (darker in light mode, bright white in dark mode) */
+.star {
+  position: absolute;
+  background-color: var(--star-color, #334155);
+  border-radius: 50%;
+  opacity: 0;
+  animation: twinkle linear infinite;
+}
+
+:is(.dark, [data-theme='dark']) .star {
+  --star-color: #ffffff;
+}
+
+.planet {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.85;
+  animation: float 20s ease-in-out infinite alternate;
+}
+
+.planet-small {
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle at 30% 30%, #a8dadc, #457b9d);
+}
+
+.planet-medium {
+  width: 50px;
+  height: 50px;
+  background: radial-gradient(circle at 30% 30%, #f4a261, #e76f51);
+}
+
+.planet-large {
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle at 30% 30%, #2a9d8f, #264653);
+}
+
+.astronaut-container {
+  animation: subtleFloat 5s ease-in-out infinite alternate;
+}
+
+.rocket-container {
+  animation: rocketFloat 7s ease-in-out infinite alternate;
+}
