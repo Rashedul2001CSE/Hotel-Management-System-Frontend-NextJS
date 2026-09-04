@@ -187,14 +187,14 @@ export function Navbar() {
                 <div className="z-10 absolute inset-0 flex justify-center items-center">
                   <FiSun
                     className={cn(
-                      "w-4 h-4 text-yellow-500 transition-opacity duration-300",
-                      resolvedTheme === "dark" && "opacity-0"
+                      "opacity-100 dark:opacity-0 w-4 h-4 text-yellow-500 transition-opacity duration-300"
+
                     )}
                   />
                   <FiMoon
                     className={cn(
-                      "absolute opacity-0 w-4 h-4 text-gray-400 transition-opacity duration-300",
-                      resolvedTheme === "dark" && "opacity-100"
+                      "absolute opacity-0 dark:opacity-100 w-4 h-4 text-gray-400 transition-opacity duration-300"
+
                     )}
                   />
                 </div>
