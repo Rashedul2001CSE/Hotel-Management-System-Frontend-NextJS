@@ -52,17 +52,17 @@ export default function NotFound() {
             {/* Main Container */}
             <div className="z-20 flex flex-col justify-center items-center p-4 text-center">
                 <div className="relative mx-auto mb-8 w-full max-w-md">
-                    <div className="top-1/2 left-1/2 z-10 absolute w-[100px] sm:w-[120px] md:w-[200px] h-[100px] sm:h-[120px] md:h-[200px] -translate-x-1/2 -translate-y-1/2 astronaut-container">
+                    <div className="top-1/2 left-1/2 z-10 absolute w-25 sm:w-30 md:w-50 h-25 sm:h-30 md:h-50 -translate-x-1/2 -translate-y-1/2 astronaut-container">
                         {/* Place Astronaut Icon/Image here */}
                     </div>
                     <div
-                        className="top-1/4 right-1/4 z-[9] absolute w-[50px] sm:w-[60px] md:w-[100px] h-[50px] sm:h-[60px] md:h-[100px] -translate-y-1/2 translate-x-1/2 rocket-container"
+                        className="top-1/4 right-1/4 z-9 absolute w-12.5 sm:w-15 md:w-25 h-12.5 sm:h-15 md:h-25 -translate-y-1/2 translate-x-1/2 rocket-container"
                         style={{ transform: 'rotate(45deg)' }}
                     >
                         {/* Place Rocket Icon/Image here */}
                     </div>
                     <div
-                        className="top-[65%] left-1/2 z-[8] absolute !w-[150px] !h-[150px] -translate-x-1/2 -translate-y-1/2 planet planet-large"
+                        className="top-[65%] left-1/2 z-8 absolute w-37.5! h-37.5! -translate-x-1/2 -translate-y-1/2 planet planet-large"
                         style={{ background: 'radial-gradient(circle at 30% 30%, #ff6b6b, #e63946)' }}
                     />
                 </div>

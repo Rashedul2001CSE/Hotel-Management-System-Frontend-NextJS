@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 
 // *******************
 
 import { useState, useEffect } from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+// import Image from "next/image";
 
 import {
   FiHome,
@@ -17,9 +17,6 @@ import {
   FiImage,
   FiMail,
   FiSearch,
-  FiBell,
-  FiLogOut,
-  FiUser,
   FiSun,
   FiMoon,
 } from "react-icons/fi";
@@ -38,19 +35,19 @@ const NAV_ITEMS = [
 // Placeholder "logged in" user for the mock auth state. Swap this for a real
 // session (NextAuth `useSession()`, Clerk `useUser()`, etc.) later — every
 // place `user` is read below is the only thing you'll need to touch.
-const MOCK_USER = {
-  name: "Jordan Lee",
-  avatarUrl: "",
-};
+// const MOCK_USER = {
+//   name: "Jordan Lee",
+//   avatarUrl: "",
+// };
 
-function getInitials(name: string) {
-  return name
-    .split(" ")
-    .map((p) => p[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-}
+// function getInitials(name: string) {
+//   return name
+//     .split(" ")
+//     .map((p) => p[0])
+//     .join("")
+//     .slice(0, 2)
+//     .toUpperCase();
+// }
 
 // ---- Component -------------------------------------------------------------
 
@@ -63,7 +60,7 @@ export function Navbar() {
   //*************************//
 
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -302,7 +299,6 @@ export function Navbar() {
                   <button
                     type="button"
                     onClick={() => {
-                      setIsAuthenticated(true);
                       closeMobileMenu();
                     }}
                     className="w-full btn-futuristic"
