@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
+import { useAuthModal } from "../../providers/auth-modal-context";
+import { FiSun, FiMoon } from "react-icons/fi";
+import { Button } from "../ui/button";
 
 // *******************
 
@@ -17,10 +20,7 @@ import {
   FiImage,
   FiMail,
   FiSearch,
-  FiSun,
-  FiMoon,
 } from "react-icons/fi";
-import { Button } from "../ui/button";
 
 
 // ---- Config --------------------------------------------------------------
@@ -57,8 +57,9 @@ export function Navbar() {
   const toggleTheme = () =>
     setTheme(resolvedTheme === "dark" ? "light" : "dark");
 
-  //*************************//
+  const { openLogin } = useAuthModal();
 
+  //*************************//
 
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -170,7 +171,7 @@ export function Navbar() {
                   )}
               </div> */}
               <div className="hidden md:flex justify-center items-center">
-                <Button className={"cursor-pointer logo-bg font-bold"}>Sign In</Button>
+                <Button onClick={openLogin} className={"cursor-pointer logo-bg font-bold"}>Sign In</Button>
               </div>
 
 

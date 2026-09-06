@@ -4,7 +4,10 @@ import "../styles/globals.css"
 import "../styles/navbar.css"
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/shared/Navbar";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/providers/theme-provider";
+import { AuthModalProvider } from "@/providers/auth-modal-context";
+import { SessionProvider } from "@/providers/session-context";
+import { Toaster } from 'sonner';
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -49,12 +52,30 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           enableSystem
           disableTransitionOnChange
         >
+          <AuthModalProvider>
+            <SessionProvider>
 
-          <Navbar />
-          {children}
+              <Navbar />
+              {children}
 
+            </SessionProvider>
+          </AuthModalProvider>
         </ThemeProvider>
+
+        {/* custom sonner toast style and color */}
+        <Toaster
+          position="bottom-right"
+          toastOptions={{
+            unstyled: true,
+            classNames: {
+              toast: 'w-full flex items-center gap-3 p-4 rounded-xl border backdrop-blur-md shadow-lg font-sans text-sm',
+              success: 'bg-emerald-500/40 border-emerald-500/50 text-emerald-600',
+              error: 'bg-rose-500/30 border-rose-500/50 text-rose-700',
+              info: 'bg-blue-500/40 border-blue-500/50 text-blue-600',
+            }
+          }}
+        />
       </body>
-    </html>
+    </html >
   );
 }
