@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { AuthModalProvider } from "@/providers/auth-modal-context";
 import { SessionProvider } from "@/providers/session-context";
 import { Toaster } from 'sonner';
+import { AuthProvider } from "@/providers/AuthContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -52,14 +53,21 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           enableSystem
           disableTransitionOnChange
         >
-          <AuthModalProvider>
-            <SessionProvider>
 
-              <Navbar />
-              {children}
 
-            </SessionProvider>
-          </AuthModalProvider>
+          <AuthProvider>
+            <AuthModalProvider>
+              <SessionProvider>
+
+                <Navbar />
+                {children}
+
+              </SessionProvider>
+            </AuthModalProvider>
+          </AuthProvider>
+
+
+
         </ThemeProvider>
 
         {/* custom sonner toast style and color */}

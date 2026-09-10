@@ -15,11 +15,14 @@ import {
     DialogDescription,
 } from "@/components/ui/dialog"
 import { SocialAuthButtons } from "./social-auth-buttons"
+import { apiFetch } from "@/lib/api"
+import { errorToast, successToast } from "@/lib/toast"
+import { useAuth } from "@/providers/AuthContext"
 
 export interface LoginFormValues {
-    emailOrUserName: string
-    password: string
-    rememberMe: boolean
+    EmailOrUserName: string
+    Password: string
+    RememberMe: boolean
 }
 
 interface LoginModalProps {
@@ -28,12 +31,12 @@ interface LoginModalProps {
     onSwitchToRegister: () => void
 }
 
-export function LoginModal({
-    open,
-    onOpenChange,
-    onSwitchToRegister,
-}: LoginModalProps) {
+export function LoginModal({ open, onOpenChange, onSwitchToRegister, }: LoginModalProps) {
+
+    const{refreshUser} = useAuth();
+
     const [showPassword, setShowPassword] = React.useState(false)
+
     const {
         register,
         handleSubmit,
@@ -42,19 +45,52 @@ export function LoginModal({
     } = useForm<LoginFormValues>({
         mode: "onBlur",
         defaultValues: {
-            emailOrUserName: "",
-            password: "",
-            rememberMe: false,
+            EmailOrUserName: "",
+            Password: "",
+            RememberMe: false,
         },
     })
 
-    // TODO: replace with your real sign-in request (API route, NextAuth, etc).
     const onSubmit = async (values: LoginFormValues) => {
-        console.log("Login submit:", values)
-        await new Promise((resolve) => setTimeout(resolve, 600))
-        onOpenChange(false)
-        reset()
-    }
+        try {
+            const response = await apiFetch(
+                "/api/auth/login?useCookies=true",
+                {
+                    method: "POST",
+                    body: JSON.stringify(
+                        values
+                    ),
+                }
+            );
+
+            if (!response.ok) {
+                const data = await response.json();
+                errorToast(
+                    data.message ?? "Invalid email or password.",
+                    "Please try again."
+                );
+
+                return;
+            }
+            // this is the key part where we refresh the user context after a successful login
+            await refreshUser();
+
+
+            successToast(
+                "Login successful.",
+                "Welcome back!"
+            );
+
+            onOpenChange(false);
+            reset();
+
+        } catch {
+            errorToast(
+                "Unable to connect to the server.",
+                "Please try again."
+            );
+        }
+    };
 
     return (
         <Dialog
@@ -83,14 +119,14 @@ export function LoginModal({
                             type="text"
                             placeholder="Email or Username"
                             autoComplete="username"
-                            aria-invalid={!!errors.emailOrUserName}
-                            {...register("emailOrUserName", {
+                            aria-invalid={!!errors.EmailOrUserName}
+                            {...register("EmailOrUserName", {
                                 required: "Enter your email or username.",
                             })}
                         />
-                        {errors.emailOrUserName && (
+                        {errors.EmailOrUserName && (
                             <p className="text-red-500 text-sm">
-                                {errors.emailOrUserName.message}
+                                {errors.EmailOrUserName.message}
                             </p>
                         )}
                     </div>
@@ -105,9 +141,9 @@ export function LoginModal({
                                 type={showPassword ? "text" : "password"}
                                 placeholder="Password"
                                 autoComplete="current-password"
-                                aria-invalid={!!errors.password}
+                                aria-invalid={!!errors.Password}
                                 className="pr-10"
-                                {...register("password", {
+                                {...register("Password", {
                                     required: "Enter your password.",
                                 })}
                             />
@@ -124,8 +160,8 @@ export function LoginModal({
                                 )}
                             </button>
                         </div>
-                        {errors.password && (
-                            <p className="text-red-500 text-sm">{errors.password.message}</p>
+                        {errors.Password && (
+                            <p className="text-red-500 text-sm">{errors.Password.message}</p>
                         )}
                     </div>
 
@@ -138,7 +174,7 @@ export function LoginModal({
                             <input
                                 type="checkbox"
                                 className="border-gray-600 rounded focus-visible:ring-2 focus-visible:ring-ring w-4 h-4 text-primary"
-                                {...register("rememberMe")}
+                                {...register("RememberMe")}
                             />
                             Remember me
                         </label>
