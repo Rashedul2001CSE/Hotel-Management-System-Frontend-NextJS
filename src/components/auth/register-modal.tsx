@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/dialog"
 import { SocialAuthButtons } from "@/components/auth/social-auth-buttons"
 import { errorToast, successToast } from "@/lib/toast"
+import { apiFetch } from "@/lib/api"
+import { useAuth } from "@/providers/AuthContext"
 
 export interface RegisterFormValues {
     FullName: string
@@ -32,6 +34,7 @@ interface RegisterModalProps {
 }
 
 export function RegisterModal({ open, onOpenChange, onSwitchToLogin }: RegisterModalProps) {
+    const { refreshUser } = useAuth();
     const [showPassword, setShowPassword] = React.useState(false)
     const {
         register,
@@ -49,12 +52,16 @@ export function RegisterModal({ open, onOpenChange, onSwitchToLogin }: RegisterM
             AcceptTerms: false,
         },
     })
+
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    if (!API_URL) {
+        throw new Error("NEXT_PUBLIC_API_URL is not defined in the environment variables.");
+    }
 
     const onSubmit = async (values: RegisterFormValues) => {
+        
         try {
-            const response = await fetch(
-                `${API_URL}/api/auth/register`,
+            const response = await apiFetch("/api/auth/register",
                 {
                     method: "POST",
                     headers: {
@@ -73,6 +80,8 @@ export function RegisterModal({ open, onOpenChange, onSwitchToLogin }: RegisterM
                 errorToast(data.message ?? "Registration failed.", "Please try again.");
                 return;
             }
+            // this will make the browser know that the user is logged in and will refresh the user context
+            await refreshUser();
 
             successToast(data.message, "You have successfully registered.");
             onOpenChange(false)
