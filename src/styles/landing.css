@@ -116,7 +116,6 @@
     radial-gradient(circle at 60% 80%,rgb(59 130 246 / .15) 0,transparent 50%);
 }
 
-.typing-text { border-right: 3px solid #3b82f6; white-space: nowrap; min-height: 1.2em; }
 .particle { position: absolute; border-radius: 50%; pointer-events: none; animation: particle-float 12s ease-in-out infinite; }
 .particle-1 { width: 6px; height: 6px; background: linear-gradient(45deg,#3b82f6,#8b5cf6); }
 .particle-2 { width: 4px; height: 4px; background: linear-gradient(45deg,#06b6d4,#3b82f6); animation-duration: 15s; animation-direction: reverse; }
