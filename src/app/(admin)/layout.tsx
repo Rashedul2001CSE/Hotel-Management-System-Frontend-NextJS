@@ -20,7 +20,7 @@ export const robotoMono = Roboto_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hotel Rose-Dashboard",
+  title: "Hotel Rose-Admin",
   description: "A calm, powerful command center for hotel operations.",
 };
 
@@ -30,8 +30,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }): JSX.Element {
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${robotoMono.variable}`}>
-      <body className="antialiased ">
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${robotoMono.variable} antialiased `}>
+      <body>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -39,9 +39,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
 
-
-          <AdminSidebar />
-          {children}
+          <main className="flex min-h-screen w-full">
+            <AdminSidebar />
+            {children}
+          </main>
         </ThemeProvider>
       </body>
 

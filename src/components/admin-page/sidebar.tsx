@@ -6,7 +6,7 @@ import { BedDouble, BookOpen, Building2, ChevronRight, ClipboardCheck, FileBarCh
 import { Button } from '@/components/ui/button'
 
 const groups = [
-  { label: 'Workspace', items: [{ label: 'Overview', href: '/', icon: Home }, { label: 'Reservations', href: '/reservations', icon: BookOpen }] },
+  { label: 'Workspace', items: [{ label: 'Overview', href: '/dashboard', icon: Home }, { label: 'Reservations', href: '/reservations', icon: BookOpen }] },
   { label: 'Operations', items: [{ label: 'Rooms', href: '/rooms', icon: BedDouble }, { label: 'Guests', href: '/guests', icon: Users }, { label: 'Staff', href: '/staff', icon: ClipboardCheck }, { label: 'Housekeeping', href: '/housekeeping', icon: Sparkles }, { label: 'Maintenance', href: '/maintenance', icon: Wrench }] },
   { label: 'Insights', items: [{ label: 'Reports', href: '/reports', icon: FileBarChart }, { label: 'Settings', href: '/settings', icon: Settings }] },
 ]
