@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import '../styles/notfound.css';
+
 
 export default function NotFound() {
     const router = useRouter();

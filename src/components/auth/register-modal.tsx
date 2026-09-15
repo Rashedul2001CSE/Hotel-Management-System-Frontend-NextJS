@@ -15,7 +15,7 @@ import {
     DialogDescription,
 } from "@/components/ui/dialog"
 import { SocialAuthButtons } from "@/components/auth/social-auth-buttons"
-import { errorToast, successToast } from "@/lib/toast"
+import { errorToast, successToast } from "@/components/ui/toast"
 import { apiFetch } from "@/lib/api"
 import { useAuth } from "@/providers/AuthContext"
 

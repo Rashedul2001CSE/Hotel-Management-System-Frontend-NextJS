@@ -24,6 +24,7 @@ import {
 } from "react-icons/fi";
 import { useAuth } from "@/providers/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 
 
 // ---- Config --------------------------------------------------------------
@@ -122,36 +123,46 @@ export function Navbar() {
               )}
 
 
-              {isAuthenticated && (
-                <button
-                  type="button"
-                  aria-label="Log out"
-                  onClick={logout}
-                  className="hidden relative md:flex justify-center items-center neon-border rounded-full w-10 h-10 hover:scale-110 transition-all duration-300 glass-morphism interactive-element"
-                >
-                  <FiLogOut className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-                </button>
-              )}
+              {isAuthenticated ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger render={
+                    <Button
+                      className="flex justify-center items-center neon-border rounded-full w-9 h-9 hover:scale-110 transition-all duration-300 user-avatar glass-morphism interactive-element"
+                    >
+                      <Avatar className="w-9 h-9">
+                        {/*Todd: Later Give it a actual image source   */}
+                        <AvatarImage src={"dldld"} alt={user?.fullName} />
+                        <AvatarFallback>{user?.fullName.trim().charAt(0).toUpperCase()}</AvatarFallback>
+                      </Avatar>
+                    </Button>} />
+                  <DropdownMenuContent className="w-32">
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem className="cursor-pointer">
+                        Profile
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer">
+                        Billing
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer">
+                        <Link href="/dashboard">
+                          Dashboard
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer">Settings</DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem variant="destructive" className={"cursor-pointer"}
+                        onClick={logout}><span>Log Out </span><FiLogOut /></DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
 
-
-              <div className="flex items-center">
-                {isAuthenticated ? (
-                  <Link
-                    href="/profile"
-                    className="flex justify-center items-center neon-border rounded-full w-9 h-9 hover:scale-110 transition-all duration-300 user-avatar glass-morphism interactive-element"
-                  >
-                    <Avatar className="w-9 h-9">
-                     {/*Todd: Later Give it a actual image source   */}
-                      <AvatarImage src={"dldld"} alt={user?.fullName} />
-                      <AvatarFallback>{user?.fullName.trim().charAt(0).toUpperCase()}</AvatarFallback>
-                    </Avatar>
-                  </Link>
-                ) : (
+                </DropdownMenu>
+              ) : (
                 <div className="hidden md:flex justify-center items-center">
                   <Button onClick={openLogin} className={"cursor-pointer logo-bg font-bold"}>Sign In</Button>
                 </div>
-                )}
-              </div>
+              )}
 
 
               <button
@@ -237,57 +248,57 @@ export function Navbar() {
 
 
             {
-               isAuthenticated ? (
-              <>
-                <div className="pt-6 border-gray-300 dark:border-gray-600 border-t">
-                  <Link
-                    href="/profile"
-                    onClick={closeMobileMenu}
-                    className="flex items-center space-x-3 px-4 py-3 rounded-lg hover:scale-105 transition-all duration-300 glass-morphism"
-                  >
-                    <Avatar className="w-6 h-6">
-                      {/* Todo: Later Give it a actual image source */}
-                      <AvatarImage src={".."} alt={user?.fullName} />
-                      <AvatarFallback className="text-[10px]">
-                        {user?.fullName.trim().charAt(0).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <span className="text-gray-700 dark:text-gray-300">
-                      My Profile
-                    </span>
-                  </Link>
-                </div>
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      logout();
-                      closeMobileMenu();
-                    }}
-                    className="block px-4 py-3 rounded-lg w-full font-medium text-gray-700 hover:text-blue-500 dark:hover:text-[#7e71f4] dark:text-gray-300 text-lg text-left nav-item glass-morphism"
-                  >
-                    <span className="flex items-center space-x-3">
-                      <FiLogOut className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-                      <span>Log Out</span>
-                    </span>
-                  </button>
-                </div>
-              </>
-            ) :
-              (
-                <div className="pt-6 border-gray-300 dark:border-gray-600 border-t">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      closeMobileMenu();
-                      openLogin();
-                    }}
-                    className="w-full btn-futuristic"
-                  >
-                    Sign In
-                  </button>
-                </div>
-              )}
+              isAuthenticated ? (
+                <>
+                  <div className="pt-6 border-gray-300 dark:border-gray-600 border-t">
+                    <Link
+                      href="/profile"
+                      onClick={closeMobileMenu}
+                      className="flex items-center space-x-3 px-4 py-3 rounded-lg hover:scale-105 transition-all duration-300 glass-morphism"
+                    >
+                      <Avatar className="w-6 h-6">
+                        {/* Todo: Later Give it a actual image source */}
+                        <AvatarImage src={".."} alt={user?.fullName} />
+                        <AvatarFallback className="text-[10px]">
+                          {user?.fullName.trim().charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="text-gray-700 dark:text-gray-300">
+                        My Profile
+                      </span>
+                    </Link>
+                  </div>
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        logout();
+                        closeMobileMenu();
+                      }}
+                      className="block px-4 py-3 rounded-lg w-full font-medium text-gray-700 hover:text-blue-500 dark:hover:text-[#7e71f4] dark:text-gray-300 text-lg text-left nav-item glass-morphism"
+                    >
+                      <span className="flex items-center space-x-3">
+                        <FiLogOut className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                        <span>Log Out</span>
+                      </span>
+                    </button>
+                  </div>
+                </>
+              ) :
+                (
+                  <div className="pt-6 border-gray-300 dark:border-gray-600 border-t">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        closeMobileMenu();
+                        openLogin();
+                      }}
+                      className="w-full btn-futuristic"
+                    >
+                      Sign In
+                    </button>
+                  </div>
+                )}
           </div>
         </div>
       </header >
