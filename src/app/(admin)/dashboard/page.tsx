@@ -7,14 +7,21 @@ import { Button } from "@/components/ui/button";
 import { ChartCard } from "@/components/admin-page/chartCard";
 import { Arrivals } from "@/components/admin-page/arraivals";
 import { RoomsWidget } from "@/components/admin-page/rooms-widget";
+import { useAuth } from "@/providers/AuthContext";
 
 export default function Dashboard(): JSX.Element {
-  return <main className="w-full lg:max-w-[1600px] p-4 md:p-8">
+
+  const date = new Date();
+  const formattedDate = date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+  const greeting = date.getHours() < 12 ? "Good morning" : date.getHours() < 18 ? "Good afternoon" : "Good evening";
+  const {user} = useAuth(); 
+
+  return <main className="w-full lg:max-w-[1600px] p-4 md:p-8 max-h-screen">
       <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div><p className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-primary">
-          Monday, August 12, 2024</p>
-          <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">Good morning, Alex</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Here&apos;s what&apos;s happening at Luma House today.</p>
+          {formattedDate}</p>
+          <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">{greeting}, {user?.fullName|| "Guest"}</h1>
+          <p className="mt-2 text-sm text-muted-foreground">Here&apos;s what&apos;s happening at Hotel Rose today.</p>
         </div>
         <div className="flex gap-2"><Button variant="outline"><CalendarDays data-icon="inline-start" /> Today</Button>
           <Button><Plus data-icon="inline-start" /> New reservation</Button>

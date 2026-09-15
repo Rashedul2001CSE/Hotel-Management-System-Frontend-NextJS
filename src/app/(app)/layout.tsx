@@ -9,6 +9,7 @@ import { AuthModalProvider } from "@/providers/auth-modal-context";
 import { SessionProvider } from "@/providers/session-context";
 import { Toaster } from 'sonner';
 import { AuthProvider } from "@/providers/AuthContext";
+import Footer from "@/components/shared/footer";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -61,6 +62,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 
                 <Navbar />
                 {children}
+                <Footer/>
 
               </SessionProvider>
             </AuthModalProvider>

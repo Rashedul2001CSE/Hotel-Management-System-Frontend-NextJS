@@ -7,4 +7,4 @@
 4.hero component is loading step by step not smoothly fix this 
 
 5. theme is not applying back to it's previous theme while going froma  404 page to home it is going back to light always. fix this 
-6. 
+6. as 5 theme is not working while going from switching from different layout 

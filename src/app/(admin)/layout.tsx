@@ -4,6 +4,8 @@ import { Inter, Roboto_Mono } from 'next/font/google';
 import "../../styles/admin-global.css"
 import { AdminSidebar } from "@/components/admin-page/sidebar";
 import { ThemeProvider } from "next-themes";
+import { AuthProvider } from "@/providers/AuthContext";
+import { Toaster } from "sonner";
 
 // Primary UI Font
 export const inter = Inter({
@@ -30,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }): JSX.Element {
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${robotoMono.variable} antialiased `}>
+    <html lang="en" suppressHydrationWarning = {true} className={`${inter.variable} ${robotoMono.variable} antialiased `}>
       <body>
         <ThemeProvider
           attribute="class"
@@ -38,12 +40,30 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <AuthProvider>
+
 
           <main className="flex min-h-screen w-full">
             <AdminSidebar />
             {children}
           </main>
+
+
+          </AuthProvider>
         </ThemeProvider>
+        <Toaster
+          position="bottom-right"
+          toastOptions={{
+            unstyled: true,
+            classNames: {
+              toast: 'w-full flex items-center gap-3 p-4 rounded-xl border backdrop-blur-md shadow-lg font-sans text-sm',
+              success: 'bg-emerald-500/40 border-emerald-500/50 text-emerald-600',
+              error: 'bg-rose-500/30 border-rose-500/50 text-rose-700',
+              info: 'bg-blue-500/40 border-blue-500/50 text-blue-600',
+            }
+          }}
+        />
+
       </body>
 
     </html>
