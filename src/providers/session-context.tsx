@@ -37,9 +37,11 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
         setStatus(result.authenticated ? "authenticated" : "unauthenticated")
     }, [])
 
-    // React.useEffect(() => {
-    //     refresh()
-    // }, [refresh])
+    React.useEffect(() => {
+        
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        refresh()
+    }, [refresh])
 
     const requireAuth = React.useCallback(
         (action: () => void) => {

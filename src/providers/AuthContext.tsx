@@ -1,5 +1,7 @@
 "use client";
 
+import { AuthUser } from "@/types/auth-user";
+
 import {
     createContext,
     useCallback,
@@ -8,18 +10,14 @@ import {
     useState,
 } from "react";
 
-export interface AuthUser {
-    id: string;
-    fullName: string;
-    userName: string | null;
-    email: string | null;
-    roles: string[];
-}
-
 interface AuthContextValue {
     user: AuthUser | null;
     isLoading: boolean;
     isAuthenticated: boolean;
+
+    hasRole: (role: string) => boolean;
+    hasAnyRole: (roles: string[]) => boolean;
+
     refreshUser: () => Promise<void>;
     logout: () => Promise<void>;
 }
@@ -70,6 +68,22 @@ export function AuthProvider({
         refreshUser();
     }, [refreshUser]);
 
+    const hasRole = useCallback(
+        (role: string) => {
+            return user?.roles.includes(role) ?? false;
+        },
+        [user]
+    );
+
+    const hasAnyRole = useCallback(
+        (roles: string[]) => {
+            return roles.some((role) =>
+                user?.roles.includes(role)
+            );
+        },
+        [user]
+    );
+
     const logout = async () => {
         try {
             const response = await fetch(
@@ -98,6 +112,8 @@ export function AuthProvider({
                 user,
                 isLoading,
                 isAuthenticated: user !== null,
+                hasRole,
+                hasAnyRole,
                 refreshUser,
                 logout,
             }}
