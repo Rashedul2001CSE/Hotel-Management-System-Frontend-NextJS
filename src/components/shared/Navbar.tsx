@@ -138,7 +138,9 @@ export function Navbar() {
                   <DropdownMenuContent className="w-32">
                     <DropdownMenuGroup>
                       <DropdownMenuItem className="cursor-pointer">
-                        Profile
+                        <Link href="/profile">
+                          Profile
+                        </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem className="cursor-pointer">
                         Billing
@@ -268,6 +270,7 @@ export function Navbar() {
                       </span>
                     </Link>
                   </div>
+
                   <div>
                     <button
                       type="button"
