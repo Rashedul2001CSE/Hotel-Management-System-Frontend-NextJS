@@ -23,16 +23,16 @@ const FOOTER_LINKS = {
         { label: "Contact", href: "/contact" },
     ],
     hotel: [
-        { label: "About Velora", href: "/about" },
-        { label: "Hotel Services", href: "/services" },
-        { label: "Dining", href: "/dining" },
-        { label: "Experiences", href: "/experiences" },
+        { label: "About Velora", href: "/extra/about" },
+        { label: "Hotel Services", href: "/extra/services" },
+        { label: "Dining", href: "/extra/dining" },
+        { label: "Experiences", href: "/extra/experiences" },
     ],
     guest: [
-        { label: "My Profile", href: "/profile" },
+        { label: "My Profile", href: "/extra/profile" },
         { label: "My Bookings", href: "/bookings" },
         { label: "Guest Support", href: "/contact" },
-        { label: "FAQs", href: "/faq" },
+        { label: "FAQs", href: "/extra/faq" },
     ],
 };
 
