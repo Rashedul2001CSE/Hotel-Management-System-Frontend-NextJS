@@ -25,6 +25,7 @@ import {
 import { useAuth } from "@/providers/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import NotificationModal from "./NotificationModal";
 
 
 // ---- Config --------------------------------------------------------------
@@ -39,6 +40,7 @@ const NAV_ITEMS = [
 // ---- Component -------------------------------------------------------------
 
 export function Navbar() {
+  const [notifOpen, setNotifOpen] = useState(false);
 
   const { resolvedTheme, setTheme } = useTheme();
   const toggleTheme = () =>
@@ -111,16 +113,19 @@ export function Navbar() {
               </button>
 
 
-              {isAuthenticated && (
+              {isAuthenticated && (<>
                 <button
+                  onClick={() => {
+                    setNotifOpen(true);
+                  }}
                   type="button"
                   aria-label="Notifications"
-                  className="hidden relative md:flex justify-center items-center neon-border rounded-full w-10 h-10 hover:scale-110 transition-all duration-300 glass-morphism interactive-element"
+                  className="hidden md:flex justify-center items-center neon-border rounded-full w-10 h-10 hover:scale-110 transition-all duration-300 glass-morphism interactive-element"
                 >
                   <FiBell className="w-5 h-5 text-gray-600 dark:text-gray-300" />
                   <div className="notification-badge" />
                 </button>
-              )}
+              </>)}
 
 
               {isAuthenticated ? (
@@ -226,6 +231,7 @@ export function Navbar() {
               >
                 <FiSearch className="w-5 h-5 text-gray-500" />
               </button>
+
             </div>
 
 
@@ -304,7 +310,10 @@ export function Navbar() {
                 )}
           </div>
         </div>
+
       </header >
+
+      <NotificationModal isOpen={notifOpen} onClose={() => setNotifOpen(false)} />
     </>
   );
 }
