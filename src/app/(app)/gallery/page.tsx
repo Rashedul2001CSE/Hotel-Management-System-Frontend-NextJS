@@ -3,14 +3,12 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   ChevronLeft,
   X,
   ChevronRight,
   Maximize2,
-  Filter,
   Sparkles,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -234,7 +232,7 @@ export default function GalleryPage() {
 
             {/* Active Image Box */}
             <div className="relative max-w-4xl w-full max-h-[85vh] flex flex-col items-center">
-              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-muted border border-border">
+              <div className="relative aspect-16/10 w-full overflow-hidden rounded-2xl bg-muted border border-border">
                 <Image
                   src={filteredItems[lightboxIndex].imageUrl}
                   alt={filteredItems[lightboxIndex].title}

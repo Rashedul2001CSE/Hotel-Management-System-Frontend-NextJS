@@ -1,319 +1,483 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
-import { cn } from "@/lib/utils";
-import { useAuthModal } from "../../providers/auth-modal-context";
-import { FiSun, FiMoon, FiBell, FiLogOut } from "react-icons/fi";
-import { Button } from "../ui/button";
 import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
-
-// *******************
-
-
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-// import Image from "next/image";
+import { useAuthModal } from "../../providers/auth-modal-context";
+import { useAuth } from "@/providers/AuthContext";
 
 import {
+  FiSun,
+  FiMoon,
+  FiBell,
+  FiLogOut,
   FiHome,
   FiGrid,
   FiImage,
   FiMail,
-  FiSearch,
+  FiCalendar,
+  FiUser,
+  FiMenu,
+  FiX,
 } from "react-icons/fi";
-import { useAuth } from "@/providers/AuthContext";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+
+import { Button } from "../ui/button";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../ui/avatar";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+
 import NotificationModal from "./NotificationModal";
 
-
-// ---- Config --------------------------------------------------------------
+/* -------------------------------------------------------------------------- */
+/* Navigation                                                                 */
+/* -------------------------------------------------------------------------- */
 
 const NAV_ITEMS = [
-  { label: "Home", href: "/", icon: FiHome },
-  { label: "Rooms", href: "/rooms", icon: FiGrid },
-  { label: "Gallery", href: "/gallery", icon: FiImage },
-  { label: "Contact", href: "/contact", icon: FiMail },
+  {
+    label: "Home",
+    href: "/",
+    icon: FiHome,
+  },
+  {
+    label: "Rooms",
+    href: "/rooms",
+    icon: FiGrid,
+  },
+  {
+    label: "Gallery",
+    href: "/gallery",
+    icon: FiImage,
+  },
+  {
+    label: "Contact",
+    href: "/contact",
+    icon: FiMail,
+  },
 ];
 
-// ---- Component -------------------------------------------------------------
+/* -------------------------------------------------------------------------- */
+/* Component                                                                  */
+/* -------------------------------------------------------------------------- */
 
 export function Navbar() {
+  const pathname = usePathname();
+
   const [notifOpen, setNotifOpen] = useState(false);
-
-  const { resolvedTheme, setTheme } = useTheme();
-  const toggleTheme = () =>
-    setTheme(resolvedTheme === "dark" ? "light" : "dark");
-
-  const { openLogin } = useAuthModal();
-
-  const { user, isAuthenticated, isLoading, logout } = useAuth(); // custom authcontext
-
-  //*************************//
-
-
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const closeMobileMenu = () => setMobileMenuOpen(false);
-  const toggleMobileMenu = () => setMobileMenuOpen((v) => !v);
+  const { resolvedTheme, setTheme } = useTheme();
+  const { openLogin } = useAuthModal();
+  const { user, isAuthenticated, logout } = useAuth();
+
+  const toggleTheme = () => {
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
+  };
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen((value) => !value);
+  };
 
   useEffect(() => {
     document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
+
     return () => {
       document.body.style.overflow = "";
     };
   }, [mobileMenuOpen]);
 
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    closeMobileMenu();
+  }, [pathname]);
+
+  const isActive = (href: string) => {
+    if (href === "/") {
+      return pathname === "/";
+    }
+
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
+  const userInitial =
+    user?.fullName?.trim().charAt(0).toUpperCase() || "U";
+
   return (
     <>
-      <div
-        className={cn("mobile-menu-backdrop", mobileMenuOpen && "active", "lg:hidden")}
-        onClick={closeMobileMenu}
-      />
-      <header className="top-0 z-50 sticky overflow-x-clip transition-all duration-300 header-glass header-neon">
-        <div className="mx-auto px-4 container">
-          <div className="flex justify-between items-center h-20">
+      {/* Mobile backdrop */}
+      {mobileMenuOpen && (
+        <button
+          type="button"
+          aria-label="Close mobile menu"
+          onClick={closeMobileMenu}
+          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
+        />
+      )}
 
-            {/* Logo Section */}
-            <div className="flex items-center space-x-1">
-              <div className="logo-container">
-                <Link
-                  href="/"
-                  className="font-black text-2xl md:text-3xl logo-sharp clickable"
-                >
-                  Hotel_Rose
-                </Link>
+      <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/90 shadow-sm backdrop-blur-xl">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-18 min-h-18 items-center justify-between gap-4">
+
+            {/* ---------------------------------------------------------------- */}
+            {/* Logo                                                             */}
+            {/* ---------------------------------------------------------------- */}
+
+            <Link
+              href="/"
+              className="group flex shrink-0 items-center gap-2.5"
+              aria-label="Velora Hotels home"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm transition-transform duration-300 group-hover:scale-105">
+                <span className="hotel-display text-lg font-semibold">
+                  V
+                </span>
               </div>
 
-            </div>
+              <div className="flex flex-col leading-none">
+                <span className="hotel-display text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+                  Velora
+                </span>
 
+                <span className="mt-1 text-[9px] font-medium uppercase tracking-[0.28em] text-muted-foreground">
+                  Hotels & Suites
+                </span>
+              </div>
+            </Link>
 
-            <nav className="hidden lg:flex items-center space-x-8">
-              {NAV_ITEMS.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="font-medium text-gray-700 hover:text-blue-500 dark:hover:text-[#7e71f4] dark:text-gray-300 text-lg nav-item clickable"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
+            {/* ---------------------------------------------------------------- */}
+            {/* Desktop Navigation                                               */}
+            {/* ---------------------------------------------------------------- */}
 
-
-            <div className="flex items-center space-x-4">
-
-              <button
-                type="button"
-                aria-label="Search"
-                className="hidden md:flex justify-center items-center neon-border rounded-full w-10 h-10 hover:scale-110 transition-all duration-300 glass-morphism interactive-element"
-              >
-                <FiSearch className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-              </button>
-
-
-              {isAuthenticated && (<>
-                <button
-                  onClick={() => {
-                    setNotifOpen(true);
-                  }}
-                  type="button"
-                  aria-label="Notifications"
-                  className="hidden md:flex justify-center items-center neon-border rounded-full w-10 h-10 hover:scale-110 transition-all duration-300 glass-morphism interactive-element"
-                >
-                  <FiBell className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-                  <div className="notification-badge" />
-                </button>
-              </>)}
-
-
-              {isAuthenticated ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger render={
-                    <Button
-                      className="flex justify-center items-center neon-border rounded-full w-9 h-9 hover:scale-110 transition-all duration-300 user-avatar glass-morphism interactive-element"
-                    >
-                      <Avatar className="w-9 h-9">
-                        {/*Todd: Later Give it a actual image source   */}
-                        <AvatarImage src={"dldld"} alt={user?.fullName} />
-                        <AvatarFallback>{user?.fullName.trim().charAt(0).toUpperCase()}</AvatarFallback>
-                      </Avatar>
-                    </Button>} />
-                  <DropdownMenuContent className="w-32">
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem className="cursor-pointer">
-                        <Link href="/profile">
-                          Profile
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="cursor-pointer">
-                        Billing
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="cursor-pointer">
-                        <Link href="/dashboard">
-                          Dashboard
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="cursor-pointer">Settings</DropdownMenuItem>
-                    </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem variant="destructive" className={"cursor-pointer"}
-                        onClick={logout}><span>Log Out </span><FiLogOut /></DropdownMenuItem>
-                    </DropdownMenuGroup>
-                  </DropdownMenuContent>
-
-                </DropdownMenu>
-              ) : (
-                <div className="hidden md:flex justify-center items-center">
-                  <Button onClick={openLogin} className={"cursor-pointer logo-bg font-bold"}>Sign In</Button>
-                </div>
-              )}
-
-
-              <button
-                type="button"
-                aria-label="Toggle theme"
-                onClick={toggleTheme}
-                className="theme-toggle interactive-element"
-              >
-                <div className="z-10 absolute inset-0 flex justify-center items-center">
-                  <FiSun
-                    className={cn(
-                      "opacity-100 dark:opacity-0 w-4 h-4 text-yellow-500 transition-opacity duration-300"
-
-                    )}
-                  />
-                  <FiMoon
-                    className={cn(
-                      "absolute opacity-0 dark:opacity-100 w-4 h-4 text-gray-400 transition-opacity duration-300"
-
-                    )}
-                  />
-                </div>
-              </button>
-
-              {/* mobile menu bar toggler */}
-              <button
-                type="button"
-                aria-label="Toggle menu"
-                onClick={toggleMobileMenu}
-                className={cn("lg:hidden hamburger interactive-element", mobileMenuOpen && "active")}
-              >
-                <span />
-                <span />
-                <span />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* mobile menu  */}
-        <div
-          className={cn(
-            "lg:hidden top-22 right-0 fixed neon-border rounded-2xl w-[min(20rem,100vw)] max-w-full h-[calc(100dvh-5rem)] overflow-x-hidden mobile-menu glass-morphism",
-            mobileMenuOpen && "open"
-          )}
-        >
-          <div className="space-y-6 mt-8 p-6">
-
-            <div className="relative">
-              <input
-                type="search"
-                placeholder="Search..."
-                className="px-4 py-3 neon-border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-black dark:placeholder:text-gray-400 dark:text-white placeholder:text-gray-500 glass-morphism"
-              />
-              <button
-                type="button"
-                aria-label="Search"
-                className="top-1/2 right-3 absolute -translate-y-1/2 transform"
-              >
-                <FiSearch className="w-5 h-5 text-gray-500" />
-              </button>
-
-            </div>
-
-
-            <nav className="space-y-4">
+            <nav
+              className="hidden items-center gap-1 lg:flex"
+              aria-label="Main navigation"
+            >
               {NAV_ITEMS.map((item) => {
-                const Icon = item.icon;
+                const active = isActive(item.href);
+
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
-                    onClick={closeMobileMenu}
-                    className="block px-4 py-3 rounded-lg font-medium text-gray-700 hover:text-blue-500 dark:hover:text-[#7e71f4] dark:text-gray-300 text-lg nav-item glass-morphism"
+                    aria-current={active ? "page" : undefined}
+                    className={cn(
+                      "relative flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200",
+                      active
+                        ? "bg-primary/10 text-primary"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    )}
                   >
-                    <span className="flex items-center space-x-3">
-                      <Icon className="w-5 h-5" />
-                      <span>{item.label}</span>
-                    </span>
+                    <item.icon className="h-4 w-4" />
+
+                    <span>{item.label}</span>
+
+                    {active && (
+                      <span className="absolute bottom-0 left-1/2 h-0.5 w-5 -translate-x-1/2 rounded-full bg-primary" />
+                    )}
                   </Link>
                 );
               })}
             </nav>
 
+            {/* ---------------------------------------------------------------- */}
+            {/* Right Actions                                                     */}
+            {/* ---------------------------------------------------------------- */}
 
-            {
-              isAuthenticated ? (
-                <>
-                  <div className="pt-6 border-gray-300 dark:border-gray-600 border-t">
-                    <Link
-                      href="/profile"
-                      onClick={closeMobileMenu}
-                      className="flex items-center space-x-3 px-4 py-3 rounded-lg hover:scale-105 transition-all duration-300 glass-morphism"
-                    >
-                      <Avatar className="w-6 h-6">
-                        {/* Todo: Later Give it a actual image source */}
-                        <AvatarImage src={".."} alt={user?.fullName} />
-                        <AvatarFallback className="text-[10px]">
-                          {user?.fullName.trim().charAt(0).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                      <span className="text-gray-700 dark:text-gray-300">
-                        My Profile
-                      </span>
-                    </Link>
-                  </div>
+            <div className="flex items-center gap-1.5 sm:gap-2">
 
-                  <div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        logout();
-                        closeMobileMenu();
-                      }}
-                      className="block px-4 py-3 rounded-lg w-full font-medium text-gray-700 hover:text-blue-500 dark:hover:text-[#7e71f4] dark:text-gray-300 text-lg text-left nav-item glass-morphism"
+              {/* Notifications */}
+              {isAuthenticated && (
+                <button
+                  type="button"
+                  aria-label="Open notifications"
+                  onClick={() => setNotifOpen(true)}
+                  className="relative hidden h-10 w-10 items-center justify-center rounded-full border border-border bg-background transition-all duration-200 hover:border-primary/40 hover:bg-primary/5 hover:text-primary md:flex"
+                >
+                  <FiBell className="h-4.5 w-4.5" />
+
+                  <span className="absolute right-2.5 top-2 h-2 w-2 rounded-full bg-primary ring-2 ring-background" />
+                </button>
+              )}
+
+              {/* Theme */}
+              <button
+                type="button"
+                aria-label="Toggle theme"
+                onClick={toggleTheme}
+                className="relative flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background transition-all duration-200 hover:border-primary/40 hover:bg-primary/5"
+              >
+                <FiSun className="h-4.5 w-4.5 text-amber-500 transition-all dark:scale-0 dark:rotate-90" />
+
+                <FiMoon className="absolute h-4.5 w-4.5 scale-0 rotate-90 text-slate-400 transition-all dark:scale-100 dark:rotate-0" />
+              </button>
+
+              {/* Auth */}
+              {isAuthenticated ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger
+                    render={
+                      <Button
+                        variant="ghost"
+                        className="h-10 rounded-full p-0 hover:bg-primary/5"
+                        aria-label="Open account menu"
+                      >
+                        <Avatar className="h-10 w-10 border border-primary/20">
+                          <AvatarImage
+                            src=""
+                            alt={user?.fullName || "User"}
+                          />
+
+                          <AvatarFallback className="bg-primary text-sm font-semibold text-primary-foreground">
+                            {userInitial}
+                          </AvatarFallback>
+                        </Avatar>
+                      </Button>
+                    }
+                  />
+
+                  <DropdownMenuContent
+                    align="end"
+                    sideOffset={8}
+                    className="w-56 rounded-xl p-1.5"
+                  >
+                    <div className="px-3 py-2.5">
+                      <p className="truncate text-sm font-semibold">
+                        {user?.fullName || "Guest"}
+                      </p>
+
+                      <p className="truncate text-xs text-muted-foreground">
+                        {user?.email || "Velora guest"}
+                      </p>
+                    </div>
+
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem >
+                        <Link
+                          href="/profile"
+                          className="flex cursor-pointer items-center gap-2"
+                        >
+                          <FiUser className="h-4 w-4" />
+                          My Profile
+                        </Link>
+                      </DropdownMenuItem>
+
+                      <DropdownMenuItem >
+                        <Link
+                          href="admin/dashboard"
+                          className="flex cursor-pointer items-center gap-2"
+                        >
+                          <FiGrid className="h-4 w-4" />
+                          Dashboard
+                        </Link>
+                      </DropdownMenuItem>
+
+                      <DropdownMenuItem >
+                        <Link
+                          href="/rooms"
+                          className="flex cursor-pointer items-center gap-2"
+                        >
+                          <FiCalendar className="h-4 w-4" />
+                          Book a Room
+                        </Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuItem
+                      variant="destructive"
+                      className="cursor-pointer"
+                      onClick={logout}
                     >
-                      <span className="flex items-center space-x-3">
-                        <FiLogOut className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-                        <span>Log Out</span>
-                      </span>
-                    </button>
-                  </div>
-                </>
-              ) :
-                (
-                  <div className="pt-6 border-gray-300 dark:border-gray-600 border-t">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        closeMobileMenu();
-                        openLogin();
-                      }}
-                      className="w-full btn-futuristic"
-                    >
-                      Sign In
-                    </button>
-                  </div>
+                      <FiLogOut className="h-4 w-4" />
+                      Log Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Button
+                  type="button"
+                  onClick={openLogin}
+                  className="hidden rounded-full bg-primary px-5 font-semibold text-primary-foreground shadow-sm transition-all duration-200 hover:bg-primary/90 hover:shadow-md md:flex"
+                >
+                  Sign In
+                </Button>
+              )}
+
+              {/* Mobile menu button */}
+              <button
+                type="button"
+                aria-label={
+                  mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
+                }
+                aria-expanded={mobileMenuOpen}
+                onClick={toggleMobileMenu}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background transition-all duration-200 hover:border-primary/40 hover:bg-primary/5 lg:hidden"
+              >
+                {mobileMenuOpen ? (
+                  <FiX className="h-5 w-5" />
+                ) : (
+                  <FiMenu className="h-5 w-5" />
                 )}
+              </button>
+            </div>
           </div>
         </div>
 
-      </header >
+        {/* -------------------------------------------------------------------- */}
+        {/* Mobile Navigation                                                    */}
+        {/* -------------------------------------------------------------------- */}
 
-      <NotificationModal isOpen={notifOpen} onClose={() => setNotifOpen(false)} />
+        <div
+          className={cn(
+            "fixed inset-x-0 top-18 z-50 border-b border-border bg-background shadow-xl transition-all duration-300 lg:hidden",
+            mobileMenuOpen
+              ? "translate-y-0 opacity-100"
+              : "pointer-events-none -translate-y-4 opacity-0"
+          )}
+        >
+          <div className="mx-auto max-h-[calc(100dvh-4.5rem)] w-full max-w-7xl overflow-y-auto px-4 py-5 sm:px-6">
+
+
+            {/* Mobile links */}
+            <nav className="space-y-1" aria-label="Mobile navigation">
+              {NAV_ITEMS.map((item) => {
+                const active = isActive(item.href);
+
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={closeMobileMenu}
+                    aria-current={active ? "page" : undefined}
+                    className={cn(
+                      "flex items-center justify-between rounded-xl px-4 py-3.5 text-base font-medium transition-all duration-200",
+                      active
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "text-foreground hover:bg-muted"
+                    )}
+                  >
+                    <span className="flex items-center gap-3">
+                      <item.icon className="h-5 w-5" />
+                      {item.label}
+                    </span>
+
+                    {active && (
+                      <span className="text-xs font-medium opacity-80">
+                        Current
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            {/* Booking CTA */}
+            <div className="mt-5 rounded-2xl bg-primary p-5 text-primary-foreground">
+              <p className="hotel-display text-xl font-semibold">
+                Your stay, your way.
+              </p>
+
+              <p className="mt-1 text-sm text-primary-foreground/75">
+                Discover rooms and experiences designed for a memorable stay.
+              </p>
+
+              <Link
+                href="/rooms"
+                onClick={closeMobileMenu}
+                className="mt-4 flex items-center justify-center rounded-lg bg-background px-4 py-2.5 text-sm font-semibold text-foreground transition hover:bg-background/90"
+              >
+                Explore Rooms
+              </Link>
+            </div>
+
+            {/* Mobile account */}
+            <div className="mt-5 border-t border-border pt-5">
+              {isAuthenticated ? (
+                <div className="space-y-2">
+                  <Link
+                    href="/profile"
+                    onClick={closeMobileMenu}
+                    className="flex items-center gap-3 rounded-xl px-4 py-3 hover:bg-muted"
+                  >
+                    <Avatar className="h-9 w-9">
+                      <AvatarFallback className="bg-primary text-primary-foreground">
+                        {userInitial}
+                      </AvatarFallback>
+                    </Avatar>
+
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold">
+                        {user?.fullName || "Guest"}
+                      </p>
+
+                      <p className="text-xs text-muted-foreground">
+                        View profile
+                      </p>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="admin/dashboard"
+                    onClick={closeMobileMenu}
+                    className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium hover:bg-muted"
+                  >
+                    <FiGrid className="h-5 w-5" />
+                    Dashboard
+                  </Link>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      logout();
+                      closeMobileMenu();
+                    }}
+                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-destructive transition hover:bg-destructive/10"
+                  >
+                    <FiLogOut className="h-5 w-5" />
+                    Log Out
+                  </button>
+                </div>
+              ) : (
+                <Button
+                  type="button"
+                  onClick={() => {
+                    closeMobileMenu();
+                    openLogin();
+                  }}
+                  className="w-full rounded-xl bg-primary py-6 font-semibold text-primary-foreground"
+                >
+                  Sign In
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <NotificationModal
+        isOpen={notifOpen}
+        onClose={() => setNotifOpen(false)}
+      />
     </>
   );
 }

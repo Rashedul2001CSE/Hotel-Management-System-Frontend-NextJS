@@ -22,8 +22,8 @@ export const robotoMono = Roboto_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hotel Rose-Admin",
-  description: "A calm, powerful command center for hotel operations.",
+  title: "Velora-Admin",
+  description: "A calm, powerful command center for Velora operations.",
 };
 
 export default function RootLayout({

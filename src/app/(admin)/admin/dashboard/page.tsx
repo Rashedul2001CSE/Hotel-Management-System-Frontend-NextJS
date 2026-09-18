@@ -21,7 +21,7 @@ export default function Dashboard(): JSX.Element {
         <div><p className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-primary">
           {formattedDate}</p>
           <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">{greeting}, {user?.fullName|| "Guest"}</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Here&apos;s what&apos;s happening at Hotel Rose today.</p>
+          <p className="mt-2 text-sm text-muted-foreground">Here&apos;s what&apos;s happening at Velora today.</p>
         </div>
         <div className="flex gap-2"><Button variant="outline"><CalendarDays data-icon="inline-start" /> Today</Button>
           <Button><Plus data-icon="inline-start" /> New reservation</Button>

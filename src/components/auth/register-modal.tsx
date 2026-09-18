@@ -105,7 +105,7 @@ export function RegisterModal({ open, onOpenChange, onSwitchToLogin }: RegisterM
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Join Us</DialogTitle>
-                    <h2 className="text-xl">Create a Hotel_Rose Account</h2>
+                    <h2 className="text-xl">Create a Velora Account</h2>
                     <DialogDescription>
                         Make a great choice and feel the comfort.
                     </DialogDescription>
@@ -202,6 +202,7 @@ export function RegisterModal({ open, onOpenChange, onSwitchToLogin }: RegisterM
                             {...register("ConfirmPassword", {
                                 required: "Confirm your password.",
                                 validate: (value) =>
+                                    // eslint-disable-next-line react-hooks/incompatible-library
                                     value === watch("Password") || "Passwords don't match.",
                             })}
                         />
@@ -223,7 +224,7 @@ export function RegisterModal({ open, onOpenChange, onSwitchToLogin }: RegisterM
                                 })}
                             />
                             <span>
-                                I agree to Hotel_Rose&apos;s{" "}
+                                I agree to Velora&apos;s{" "}
                                 <a href="#" className="text-blue-500 hover:underline">
                                     Terms of Service
                                 </a>{" "}

@@ -2,10 +2,8 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { motion } from 'motion/react';
 import {
-    ChevronLeft,
     Mail,
     Phone,
     MapPin,
