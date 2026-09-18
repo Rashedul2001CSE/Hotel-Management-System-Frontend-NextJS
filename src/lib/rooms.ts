@@ -1,8 +1,19 @@
-import { notFound } from "next/navigation";
-import type { Metadata } from "next";
-import RoomDetails from "@/components/hotel-room/room-details";
+export type HotelRoom = {
+  id: string;
+  name: string;
+  category: "Standard" | "Deluxe" | "Suite" | "Family";
+  price: number;
+  rating: number;
+  reviews: number;
+  maxGuests: number;
+  size: string;
+  beds: string;
+  description: string;
+  images: string[];
+  amenities: string[];
+};
 
-const ROOMS = [
+export const ROOMS: HotelRoom[] = [
   {
     id: "deluxe-king-room",
     name: "Deluxe King Room",
@@ -31,6 +42,7 @@ const ROOMS = [
       "24/7 Room Service",
     ],
   },
+
   {
     id: "premium-suite",
     name: "Premium Suite",
@@ -59,6 +71,7 @@ const ROOMS = [
       "Breakfast Included",
     ],
   },
+
   {
     id: "classic-room",
     name: "Classic Room",
@@ -84,6 +97,7 @@ const ROOMS = [
       "Rain Shower",
     ],
   },
+
   {
     id: "executive-suite",
     name: "Executive Suite",
@@ -110,6 +124,7 @@ const ROOMS = [
       "Mini Bar",
     ],
   },
+
   {
     id: "family-residence",
     name: "Family Residence",
@@ -136,6 +151,7 @@ const ROOMS = [
       "Bathtub",
     ],
   },
+
   {
     id: "deluxe-twin-room",
     name: "Deluxe Twin Room",
@@ -161,6 +177,7 @@ const ROOMS = [
       "Work Desk",
     ],
   },
+
   {
     id: "grand-suite",
     name: "Grand Suite",
@@ -188,6 +205,7 @@ const ROOMS = [
       "Premium View",
     ],
   },
+
   {
     id: "family-deluxe-room",
     name: "Family Deluxe Room",
@@ -214,50 +232,3 @@ const ROOMS = [
     ],
   },
 ];
-
-type PageProps = {
-  params: Promise<{ roomId: string }>;
-  searchParams: Promise<{
-    checkIn?: string;
-    checkOut?: string;
-    guests?: string;
-  }>;
-};
-
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const { roomId } = await params;
-  const room = ROOMS.find((item) => item.id === roomId);
-
-  return {
-    title: room ? `${room.name} | Velora Hotels` : "Room Details | Velora Hotels",
-    description:
-      room?.description ??
-      "Explore refined rooms and suites at Velora Hotels.",
-  };
-}
-
-export default async function RoomDetailsPage({
-  params,
-  searchParams,
-}: PageProps) {
-  const { roomId } = await params;
-  const query = await searchParams;
-
-  // const room = ROOMS.find((item) => item.id === roomId);
-  const room = ROOMS.at(0);
-
-  if (!room) {
-    notFound();
-  }
-
-  return (
-    <RoomDetails
-      room={room}
-      initialCheckIn={query.checkIn ?? ""}
-      initialCheckOut={query.checkOut ?? ""}
-      initialGuests={Number(query.guests ?? 1)}
-    />
-  );
-}
