@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { JSX } from "react";
 import { Inter, Roboto_Mono } from 'next/font/google';
 import "../../styles/admin-global.css"
-import { AdminSidebar } from "@/components/admin-page/sidebar";
+import { AdminShell } from "@/components/admin-page/admin-shell";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "@/providers/AuthContext";
 import { Toaster } from "sonner";
@@ -22,8 +22,8 @@ export const robotoMono = Roboto_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hotel Rose-Admin",
-  description: "A calm, powerful command center for hotel operations.",
+  title: "Velora-Admin",
+  description: "A calm, powerful command center for Velora operations.",
 };
 
 export default function RootLayout({
@@ -43,10 +43,7 @@ export default function RootLayout({
           <AuthProvider>
 
 
-          <main className="flex min-h-screen w-full">
-            <AdminSidebar />
-            {children}
-          </main>
+          <AdminShell>{children}</AdminShell>
 
 
           </AuthProvider>

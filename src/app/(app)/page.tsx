@@ -1,21 +1,55 @@
-import { Hero } from "@/components/landing-page/Hero";
-import "../../styles/landing.css"
-import { SearchSection } from "@/components/landing-page/SearchSection";
-import { RoomsSection } from "@/components/landing-page/RoomsSection";
-import { AmenitiesSection } from "@/components/landing-page/AmenitiesSection";
-import { TestimonialsSection } from "@/components/landing-page/TestimonialsSection";
-import { GallerySection } from "@/components/landing-page/GallerySection";
-import { NewsletterSection } from "@/components/landing-page/NewsletterSection";
-export default function Page() {
+import type { Metadata } from "next";
+
+import { HeroSection } from "@/components/landing-page/hero-section";
+import { FeaturedRooms } from "@/components/landing-page/featured-room";
+import { ExperiencesSection } from "@/components/landing-page/experience-section";
+import { OffersSection } from "@/components/landing-page/offer-section";
+import { TestimonialsSection } from "@/components/landing-page/testimonial-section";
+import { HotelGallery } from "@/components/landing-page/hotel-gallery";
+import { LocationSection } from "@/components/landing-page/location-section";
+import { FaqSection } from "@/components/landing-page/faq-section";
+import { HotelCta } from "@/components/landing-page/hotel-cta";
+
+export const metadata: Metadata = {
+  title: "Velora Hotels | Refined Stays, Thoughtfully Designed",
+  description:
+    "Discover refined rooms, memorable experiences, exceptional dining, and effortless stays at Velora Hotels.",
+  keywords: [
+    "Velora Hotels",
+    "luxury hotel",
+    "hotel booking",
+    "hotel rooms",
+    "premium hotel",
+    "hotel stay",
+  ],
+  openGraph: {
+    title: "Velora Hotels | Refined Stays",
+    description:
+      "A refined hotel experience designed around comfort, elegance, and unforgettable moments.",
+    type: "website",
+  },
+};
+
+export default function HomePage() {
   return (
-    <main className="min-h-screen container mx-auto px-4">
-      <Hero />
-      <SearchSection />
-      <RoomsSection />
-      <AmenitiesSection />
+    <main className="overflow-hidden">
+      <HeroSection />
+
+      <FeaturedRooms />
+
+      <ExperiencesSection />
+
+      <OffersSection />
+
       <TestimonialsSection />
-      <GallerySection />
-      <NewsletterSection />
+
+      <HotelGallery />
+
+      <LocationSection />
+
+      <FaqSection />
+
+      <HotelCta />
     </main>
   );
 }

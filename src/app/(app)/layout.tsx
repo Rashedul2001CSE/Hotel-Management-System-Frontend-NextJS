@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "../../styles/globals.css"
-import "../../styles/navbar.css"
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/shared/Navbar";
 import { ThemeProvider } from "@/providers/theme-provider";
@@ -24,8 +23,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hotel Rose",
-  description: "Experience the luxury of Hotel Rose",
+  title: "Velora - Hotels & Suites",
+  description: "Experience the luxury of Velora Hotels & Suites",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -43,7 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       )}
     >
       <head>
-        <title>Hotel Rose</title>
+        <title>Velora- Hotels & Suites</title>
         <link rel="icon" href="/favicon.png" />
       </head>
       <body >

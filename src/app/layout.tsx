@@ -6,8 +6,8 @@ import { ThemeProvider } from "@/providers/theme-provider";
 
 
 export const metadata: Metadata = {
-    title: "Hotel Rose",
-    description: "Welcome to Hotel Rose, where luxury meets comfort. Explore our exquisite rooms, indulge in world-class amenities, and experience unparalleled hospitality. Your perfect stay awaits.",
+    title: "Velora Hotels & Suites",
+    description: "Welcome to Velora, where luxury meets comfort. Explore our exquisite rooms, indulge in world-class amenities, and experience unparalleled hospitality. Your perfect stay awaits.",
 };
 
 export default function RootLayout({
