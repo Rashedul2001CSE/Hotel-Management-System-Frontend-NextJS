@@ -17,7 +17,6 @@ import {
   FileText,
   Gauge,
   Gift,
-  Home,
   KeyRound,
   LogOut,
   MessageSquare,
@@ -26,11 +25,10 @@ import {
   Settings,
   ShieldCheck,
   Sparkles,
-  Tags,
   UserCog,
   Users,
-  UserRound,
   Wrench,
+  X,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -206,9 +204,11 @@ const groups = [
 ];
 
 export function AdminSidebar({
-  collapsed = true,
+  isOpen = false,
+  onClose,
 }: {
-  collapsed?: boolean;
+  isOpen?: boolean;
+  onClose?: () => void;
 }) {
   const { logout } = useAuth();
   const pathname = usePathname();
@@ -217,32 +217,43 @@ export function AdminSidebar({
     <aside
       className={[
         "admin-sidebar",
-        collapsed ? "admin-sidebar--collapsed" : "admin-sidebar--expanded",
+        isOpen ? "admin-sidebar--open" : "",
       ].join(" ")}
       aria-label="Hotel administration navigation"
     >
       {/* Logo */}
-      <Link
-        href="/"
-        className="admin-sidebar__brand group"
-        aria-label="Velora Hotels home"
-      >
-        <div className="admin-sidebar__logo">
-          <span className="hotel-display text-lg font-semibold">
-            V
-          </span>
-        </div>
+      <div className="admin-sidebar__brand-row">
+        <Link
+          href="/"
+          className="admin-sidebar__brand group"
+          aria-label="Velora Hotels home"
+        >
+          <div className="admin-sidebar__logo">
+            <span className="hotel-display text-lg font-semibold">V</span>
+          </div>
 
-        <div className="admin-sidebar__brand-text">
-          <span className="hotel-display text-xl font-semibold tracking-tight text-foreground">
-            Velora
-          </span>
+          <div className="admin-sidebar__brand-text">
+            <span className="hotel-display text-xl font-semibold tracking-tight text-foreground">
+              Velora
+            </span>
 
-          <span className="mt-1 text-[9px] font-medium uppercase tracking-[0.28em] text-muted-foreground">
-            Hotels & Suites
-          </span>
-        </div>
-      </Link>
+            <span className="mt-1 text-[9px] font-medium uppercase tracking-[0.28em] text-muted-foreground">
+              Hotels & Suites
+            </span>
+          </div>
+        </Link>
+
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          className="admin-sidebar__close"
+          onClick={onClose}
+          aria-label="Close navigation"
+        >
+          <X />
+        </Button>
+      </div>
 
       {/* Navigation */}
       <nav className="admin-sidebar__nav">
@@ -274,6 +285,7 @@ export function AdminSidebar({
                           ? "admin-sidebar__item--active"
                           : "",
                       ].join(" ")}
+                      onClick={onClose}
                     >
                       <Icon className="admin-sidebar__icon" />
 

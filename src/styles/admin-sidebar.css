@@ -3,6 +3,16 @@
    Compact by default -> expands on hover
    ========================================================= */
 
+.admin-shell {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.admin-mobile-header {
+    display: none;
+}
+
 .admin-sidebar {
     position: relative;
     z-index: 50;
@@ -22,33 +32,12 @@
 
     overflow: hidden;
 
-    transition:
-        width 280ms cubic-bezier(0.4, 0, 0.2, 1),
-        box-shadow 280ms ease;
+    width: 270px;
+
+    transition: box-shadow 280ms ease;
 
     scrollbar-width: thin;
 }
-
-/* Compact mode */
-.admin-sidebar--collapsed {
-    width: 72px;
-}
-
-/* Expand on hover */
-.admin-sidebar--collapsed:hover {
-    width: 270px;
-
-    box-shadow:
-        10px 0 35px color-mix(in oklch,
-            var(--foreground) 7%,
-            transparent);
-}
-
-/* Force expanded mode if needed */
-.admin-sidebar--expanded {
-    width: 270px;
-}
-
 
 /* =========================================================
    BRAND
@@ -122,10 +111,19 @@
 }
 
 /* Hide brand text while compact */
-.admin-sidebar--collapsed:not(:hover) .admin-sidebar__brand-text {
-    opacity: 0;
-    transform: translateX(-8px);
-    pointer-events: none;
+.admin-sidebar__brand-row {
+    display: flex;
+    align-items: center;
+    width: 270px;
+}
+
+.admin-sidebar__brand-row .admin-sidebar__brand {
+    width: auto;
+    flex: 1;
+}
+
+.admin-sidebar__close {
+    display: none;
 }
 
 
@@ -196,12 +194,6 @@
         opacity 180ms ease,
         transform 200ms ease;
 }
-
-.admin-sidebar--collapsed:not(:hover) .admin-sidebar__group-label {
-    opacity: 0;
-    transform: translateX(-8px);
-}
-
 
 /* =========================================================
    NAV ITEMS
@@ -309,12 +301,6 @@
         transform 220ms ease;
 }
 
-.admin-sidebar--collapsed:not(:hover) .admin-sidebar__item-label {
-    opacity: 0;
-    transform: translateX(-8px);
-}
-
-
 /* =========================================================
    CHEVRON
    ========================================================= */
@@ -413,12 +399,6 @@
         transform 200ms ease;
 }
 
-.admin-sidebar--collapsed:not(:hover) .admin-sidebar__status-content {
-    opacity: 0;
-    transform: translateX(-8px);
-}
-
-
 /* =========================================================
    LOGOUT
    ========================================================= */
@@ -466,46 +446,6 @@
         transform 200ms ease;
 }
 
-.admin-sidebar--collapsed:not(:hover) .admin-sidebar__logout-label {
-    opacity: 0;
-    transform: translateX(-8px);
-}
-
-
-/* =========================================================
-   COMPACT TOOLTIP
-   ========================================================= */
-
-.admin-sidebar--collapsed:not(:hover) .admin-sidebar__item:hover::after {
-    content: attr(title);
-
-    position: fixed;
-
-    left: 82px;
-
-    padding: 7px 10px;
-
-    border-radius: 7px;
-
-    background: var(--foreground);
-    color: var(--background);
-
-    font-size: 11px;
-    font-weight: 500;
-
-    white-space: nowrap;
-
-    pointer-events: none;
-
-    z-index: 100;
-
-    box-shadow:
-        0 5px 15px color-mix(in oklch,
-            var(--foreground) 15%,
-            transparent);
-}
-
-
 /* =========================================================
    REDUCE MOTION
    ========================================================= */
@@ -525,7 +465,83 @@
    ========================================================= */
 
 @media (max-width: 1023px) {
+    .admin-shell {
+        position: relative;
+        display: block;
+        min-height: 100vh;
+        padding-top: 64px;
+    }
+
+    .admin-mobile-header {
+        position: fixed;
+        inset: 0 0 auto;
+        z-index: 40;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        height: 64px;
+        padding: 0 16px;
+
+        background: var(--sidebar);
+        border-bottom: 1px solid color-mix(in oklch, var(--border) 65%, transparent);
+    }
+
+    .admin-mobile-header__brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--foreground);
+        text-decoration: none;
+    }
+
+    .admin-mobile-header__logo {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border-radius: 10px;
+        background: var(--primary);
+        color: var(--primary-foreground);
+        font-weight: 700;
+    }
+
     .admin-sidebar {
-        display: none;
+        position: fixed;
+        inset: 0 auto 0 0;
+        z-index: 60;
+
+        width: min(270px, 86vw);
+        transform: translateX(-100%);
+        box-shadow: 10px 0 35px color-mix(in oklch, var(--foreground) 12%, transparent);
+        transition: transform 220ms ease;
+    }
+
+    .admin-sidebar--open {
+        transform: translateX(0);
+    }
+
+    .admin-sidebar__brand,
+    .admin-sidebar__nav,
+    .admin-sidebar__footer {
+        width: 100%;
+    }
+
+    .admin-sidebar__brand-row {
+        width: 100%;
+    }
+
+    .admin-sidebar__close {
+        display: inline-flex;
+        margin-right: 10px;
+    }
+
+    .admin-sidebar__overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        border: 0;
+        background: color-mix(in oklch, var(--foreground) 42%, transparent);
     }
 }
